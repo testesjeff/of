@@ -89,16 +89,48 @@
   <script>
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
+  
       var lightbox = $(this).ekkoLightbox({
-        backdrop: "static", // Evita fechar ao clicar fora
-        keyboard: false     // Opcional: Desativa fechamento com ESC
+        backdrop: "static", // Impede fechar clicando fora
+        keyboard: false,    // Desativa o comportamento padrão do teclado
+        showArrows: false,  // Remove os botões de navegação padrão
+        onShown: function () {
+          // Habilitar navegação pelo teclado
+          $(document).on('keydown', function (e) {
+            if (e.key === "ArrowRight") {
+              lightbox.navigateTo(lightbox.currentGalleryItem + 1); // Próxima imagem
+            } else if (e.key === "ArrowLeft") {
+              lightbox.navigateTo(lightbox.currentGalleryItem - 1); // Imagem anterior
+            }
+          });
+  
+          // Habilitar navegação por swipe em dispositivos móveis
+          $('.ekko-lightbox .modal-body').on('touchstart', function (e) {
+            var startX = e.originalEvent.touches[0].pageX;
+            $(this).on('touchmove', function (e) {
+              var moveX = e.originalEvent.touches[0].pageX;
+              if (startX - moveX > 50) {
+                lightbox.navigateTo(lightbox.currentGalleryItem + 1); // Próxima imagem
+                $(this).off('touchmove');
+              } else if (moveX - startX > 50) {
+                lightbox.navigateTo(lightbox.currentGalleryItem - 1); // Imagem anterior
+                $(this).off('touchmove');
+              }
+            });
+          });
+        },
+        onHide: function () {
+          // Limpar eventos para evitar conflitos
+          $(document).off('keydown');
+          $('.ekko-lightbox .modal-body').off('touchstart touchmove');
+        }
       });
   
-      // Adicionar o botão de Fechar dentro da imagem da lightbox
+      // Adicionar botão de fechar
       $(document).on('shown.bs.modal', function () {
         var closeButton = $('<button class="btn-close">Fechar</button>');
   
-        // Adicionar o botão de fechar dentro da imagem da lightbox
+        // Adicionar o botão de fechar dentro da lightbox
         $('.ekko-lightbox .modal-body').append(closeButton);
   
         // Fechar a lightbox ao clicar no botão
@@ -108,6 +140,7 @@
       });
     });
   </script>
+  
   
 </body>
 
