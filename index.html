@@ -35,40 +35,55 @@
     }
 
     section {
-      margin-top: 70px;
-      column-count: 3;
-      column-gap: 10px;
-      padding: 10px;
-      position: relative;
+        margin-top: 70px;
+        column-count: 3;
+        column-gap: 10px;
+        padding: 10px;
+        position: relative;
     }
 
     section a {
-      display: block;
-      margin-bottom: 10px;
+        display: block;
+        margin-bottom: 10px;
     }
 
     /* Estilo do botão vermelho dentro da imagem */
     .btn-close {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      background-color: red;
-      color: white;
-      padding: 5px;
-      border: none;
-      border-radius: 5px;
-      font-size: 10px;
-      cursor: pointer;
-      z-index: 9999;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        background-color: red;
+        color: white;
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 10px;
+        cursor: pointer;
+        z-index: 9999;
     }
 
     .btn-close:hover {
-      background-color: darkred;
+        background-color: darkred;
     }
 
     /* Para a imagem dentro do modal */
     .ekko-lightbox .modal-body {
-      position: relative;
+        position: relative;
+    }
+
+    .ekko-lightbox .modal-body img {
+        opacity: 1 !important; /* Garante que as imagens no lightbox tenham opacidade 1 */
+        transition: none !important; /* Remove qualquer transição dentro do lightbox */
+    }
+
+    /* Estilo para a animação suave de carregamento */
+    img {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    img.loaded {
+      opacity: 1;
     }
   </style>
   <script>
@@ -84,22 +99,22 @@
 
     <section>
       <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded" loading="lazy">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded" loading="lazy">
       </a>
     </section>
 
@@ -107,6 +122,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('.img-fluid');
+      
+      images.forEach((img) => {
+        img.addEventListener('load', () => {
+          img.classList.add('loaded'); // Adiciona a classe "loaded" após o carregamento
+        });
+
+        // Caso a imagem já esteja no cache do navegador
+        if (img.complete) {
+          img.classList.add('loaded');
+        }
+      });
+    });
+
+    // Inicializa o Ekko Lightbox
+    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+      event.preventDefault();
+      $(this).ekkoLightbox();
+    });
+  </script>
   <script>
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
