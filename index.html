@@ -12,11 +12,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
+    body {
+      background-color: aqua;
+    }
+
     .row {
       margin: 15px;
     }
 
     section {
+      width: 100%;
       margin-top: 70px;
       column-count: 3;
       column-gap: 10px;
@@ -29,56 +34,50 @@
       margin-bottom: 10px;
     }
 
-/* Estilo do botão vermelho dentro da imagem */
-.btn-close {
-  position: absolute;
-  top: 20px; /* Espaçamento de 5px do topo */
-  right: 20px; /* Espaçamento de 5px do lado direito */
-  background-color: red;
-  color: white;
-  padding: 7px;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  z-index: 9999;
-}
+    .btn-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: red;
+      color: white;
+      padding: 7px;
+      border: none;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+      z-index: 9999;
+    }
 
-.btn-close:hover {
-  background-color: darkred;
-}
+    .btn-close:hover {
+      background-color: darkred;
+    }
 
-
-    /* Para a imagem dentro do modal */
     .ekko-lightbox .modal-body {
       position: relative;
     }
   </style>
-  <script>
-    window.console = window.console || function(t) {};
-  </script>
 </head>
 
 <body translate="no">
   <div class="container">
     <section>
       <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded" loading="lazy" alt="Image 251">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded" loading="lazy" alt="Image 252">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded" loading="lazy" alt="Image 253">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded" loading="lazy" alt="Image 254">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded" loading="lazy" alt="Image 255">
       </a>
       <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded">
+        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded" loading="lazy" alt="Image 256">
       </a>
     </section>
   </div>
@@ -89,59 +88,22 @@
   <script>
     $(document).on("click", '[data-toggle="lightbox"]', function (event) {
       event.preventDefault();
-  
       var lightbox = $(this).ekkoLightbox({
-        backdrop: "static", // Impede fechar clicando fora
-        keyboard: false,    // Desativa o comportamento padrão do teclado
-        showArrows: false,  // Remove os botões de navegação padrão
-        onShown: function () {
-          // Habilitar navegação pelo teclado
-          $(document).on('keydown', function (e) {
-            if (e.key === "ArrowRight") {
-              lightbox.navigateTo(lightbox.currentGalleryItem + 1); // Próxima imagem
-            } else if (e.key === "ArrowLeft") {
-              lightbox.navigateTo(lightbox.currentGalleryItem - 1); // Imagem anterior
-            }
-          });
-  
-          // Habilitar navegação por swipe em dispositivos móveis
-          $('.ekko-lightbox .modal-body').on('touchstart', function (e) {
-            var startX = e.originalEvent.touches[0].pageX;
-            $(this).on('touchmove', function (e) {
-              var moveX = e.originalEvent.touches[0].pageX;
-              if (startX - moveX > 50) {
-                lightbox.navigateTo(lightbox.currentGalleryItem + 1); // Próxima imagem
-                $(this).off('touchmove');
-              } else if (moveX - startX > 50) {
-                lightbox.navigateTo(lightbox.currentGalleryItem - 1); // Imagem anterior
-                $(this).off('touchmove');
-              }
-            });
-          });
-        },
-        onHide: function () {
-          // Limpar eventos para evitar conflitos
-          $(document).off('keydown');
-          $('.ekko-lightbox .modal-body').off('touchstart touchmove');
-        }
+        backdrop: "static",
+        keyboard: false
       });
-  
-      // Adicionar botão de fechar
+
       $(document).on('shown.bs.modal', function () {
         var closeButton = $('<button class="btn-close">Fechar</button>');
-  
-        // Adicionar o botão de fechar dentro da lightbox
+
         $('.ekko-lightbox .modal-body').append(closeButton);
-  
-        // Fechar a lightbox ao clicar no botão
+
         closeButton.on('click', function () {
           $('.ekko-lightbox').modal('hide');
         });
       });
     });
   </script>
-  
-  
 </body>
 
 </html>
