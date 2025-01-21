@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+  <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+  <title>Bootstrap 4 Lightbox Gallery</title>
+  <link rel="canonical" href="https://codepen.io/nsom/pen/VbqLew">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .row {
+      margin: 15px;
+    }
+
+    section {
+      margin-top: 70px;
+      column-count: 3;
+      column-gap: 10px;
+      padding: 10px;
+      position: relative;
+    }
+
+    section a {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+/* Estilo do botão vermelho dentro da imagem */
+.btn-close {
+  position: absolute;
+  top: 20px; /* Espaçamento de 5px do topo */
+  right: 20px; /* Espaçamento de 5px do lado direito */
+  background-color: red;
+  color: white;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.btn-close:hover {
+  background-color: darkred;
+}
+
+
+    /* Para a imagem dentro do modal */
+    .ekko-lightbox .modal-body {
+      position: relative;
+    }
+  </style>
+  <script>
+    window.console = window.console || function(t) {};
+  </script>
+</head>
+
+<body translate="no">
+  <div class="container">
+    <section>
+      <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+      </a>
+      <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+      </a>
+      <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+      </a>
+      <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded">
+      </a>
+      <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded">
+      </a>
+      <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="gallery">
+        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded">
+      </a>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+  <script>
+    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+      event.preventDefault();
+      var lightbox = $(this).ekkoLightbox({
+        backdrop: "static", // Evita fechar ao clicar fora
+        keyboard: false     // Opcional: Desativa fechamento com ESC
+      });
+  
+      // Adicionar o botão de Fechar dentro da imagem da lightbox
+      $(document).on('shown.bs.modal', function () {
+        var closeButton = $('<button class="btn-close">Fechar</button>');
+  
+        // Adicionar o botão de fechar dentro da imagem da lightbox
+        $('.ekko-lightbox .modal-body').append(closeButton);
+  
+        // Fechar a lightbox ao clicar no botão
+        closeButton.on('click', function () {
+          $('.ekko-lightbox').modal('hide');
+        });
+      });
+    });
+  </script>
+  
+</body>
+
+</html>
