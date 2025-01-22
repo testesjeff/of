@@ -12,6 +12,7 @@
       padding: 0;
       background-color: #1b1b1b; /* Fundo do site */
       color: white; /* Define o texto padrão como branco */
+      overflow-x: hidden; /* Bloqueia a criação da barra lateral */
     }
 
     header {
@@ -49,8 +50,9 @@
     .text-container .subtitle {
       font-family: 'Lato', sans-serif;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 10px;
       margin: 0;
+      margin-bottom: 5px;
     }
 
     .text-container .name {
@@ -72,12 +74,10 @@
       width: 100%;
       display: flex;
       justify-content: center; /* Centraliza a imagem no retângulo */
-    }
-
-    .rectangle img {
-      display: block; /* Remove espaços extras ao redor da imagem */
-      width: 100%; /* Faz com que a imagem ocupe toda a largura */
-      height: auto; /* Ajusta a altura automaticamente conforme a proporção da imagem */
+      height: auto; /* Deixa a altura automática */
+      background-color: #2c2c2c; /* Cor de fundo caso a imagem não carregue */
+      background-size: cover; /* Ajusta a imagem para cobrir toda a área do retângulo */
+      background-position: center center; /* Centraliza a imagem */
     }
 
     .bottom-rectangle {
@@ -122,6 +122,16 @@
       text-transform: uppercase;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
+
+    /* Estilo para o coração quando ele for clicado */
+    .liked {
+      color: red;
+    }
+
+    /* Estilo para a seção de imagens */
+    .image-section {
+      display: none; /* Oculta inicialmente */
+    }
   </style>
 </head>
 <body>
@@ -130,17 +140,26 @@
       <div class="circle"></div>
       <div class="text-container">
         <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
-        <p class="name">Sarinha Leite</p>
+        <p class="name">arinha Leite</p>
       </div>
     </div>
     <div class="icon"></div>
   </header>
-  <div class="rectangle">
-    <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem de fundo">
+  <div class="rectangle" id="bottom-rectangle">
+    <!-- A imagem será alterada dinamicamente -->
   </div>
+
+  <section class="image-section" id="image-section">
+    <!-- Adicione várias imagens aqui -->
+    <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
+    <img src="https://www.dropbox.com/scl/fi/04mgxrv0cw96voyicjylx/21.webp?rlkey=43cc8r6tcegl3mrg16jy9cqc4&st=40mweli4&raw=1" alt="Imagem 2">
+    <img src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=9boy8raw&raw=1" alt="Imagem 3">
+    <!-- Mais imagens podem ser adicionadas -->
+  </section>
+
   <div class="bottom-rectangle">
-    <div class="icone" id="like-button">
-      <i class="fas fa-heart"></i>
+    <div class="icone" id="like-button" onclick="toggleLike()">
+      <i id="like-icon" class="fas fa-heart"></i>
       <span id="like-count">917</span>
     </div>
     <div class="icone">
@@ -151,5 +170,97 @@
       Conteúdo Exclusivo
     </div>
   </div>
+
+  <script>
+    let liked = false; // Estado inicial do like
+    let currentImageIndex = 0; // Índice da imagem atual
+
+    const images = document.querySelectorAll('#image-section img'); // Pega todas as imagens da seção
+    const bottomRectangle = document.getElementById('bottom-rectangle');
+    const likeIcon = document.getElementById('like-icon');
+    const likeCount = document.getElementById('like-count');
+    
+    // Função para carregar a imagem no retângulo
+    function loadImage(index) {
+      // Define a imagem como fundo do retângulo
+      const img = images[index];
+      bottomRectangle.style.backgroundImage = `url('${img.src}')`;
+      
+      // Ajusta a altura do retângulo dinamicamente com base nas proporções da imagem
+      const imgHeight = img.height;
+      const imgWidth = img.width;
+      const aspectRatio = imgHeight / imgWidth; // Proporção da imagem
+      bottomRectangle.style.height = `${bottomRectangle.offsetWidth * aspectRatio}px`; // Calcula a altura
+    }
+
+    // Carrega a primeira imagem quando a página carrega
+    window.onload = function() {
+      loadImage(currentImageIndex);
+    };
+
+    // Função para alternar o like
+    function toggleLike() {
+      if (liked) {
+        likeIcon.classList.remove('liked');
+        likeCount.textContent = '917';
+      } else {
+        likeIcon.classList.add('liked');
+        likeCount.textContent = '918';
+      }
+      liked = !liked;
+    }
+
+    // Função para navegar pelas imagens com as teclas de seta
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowRight') {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        loadImage(currentImageIndex);
+      } else if (event.key === 'ArrowLeft') {
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        loadImage(currentImageIndex);
+      }
+    });
+
+    // Função para navegar pelas imagens com o toque (para dispositivos móveis)
+    let startX = 0;
+
+    bottomRectangle.addEventListener('touchstart', function(event) {
+      startX = event.touches[0].clientX;
+    });
+
+    bottomRectangle.addEventListener('touchend', function(event) {
+      const endX = event.changedTouches[0].clientX;
+      if (startX - endX > 30) {
+        // Deslizar para a direita (próxima imagem)
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        loadImage(currentImageIndex);
+      } else if (endX - startX > 30) {
+        // Deslizar para a esquerda (imagem anterior)
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        loadImage(currentImageIndex);
+      }
+    });
+
+    // Função para definir a altura máxima do retângulo
+function setMaxRectangleHeight() {
+  const headerHeight = 60; // Altura do cabeçalho
+  const bottomRectangleHeight = 70; // Altura do retângulo inferior
+  const viewportHeight = window.innerHeight; // Altura da janela de visualização
+  const maxRectangleHeight = viewportHeight - headerHeight - bottomRectangleHeight; // Calcula a altura máxima
+  
+  // Define a altura máxima para o retângulo
+  document.getElementById('bottom-rectangle').style.maxHeight = `${maxRectangleHeight}px`;
+}
+
+// Define a altura máxima ao carregar a página
+window.onload = function() {
+  setMaxRectangleHeight();
+  loadImage(currentImageIndex); // Mantém o carregamento da imagem
+};
+
+// Redefine a altura máxima ao redimensionar a janela (opcional)
+window.onresize = setMaxRectangleHeight;
+
+  </script>
 </body>
 </html>
