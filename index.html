@@ -1,205 +1,155 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria de Imagens</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #1a1a1a; /* Fundo cinza escuro */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cabeçalho</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> <!-- Lato em negrito -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1b1b1b; /* Fundo do site */
+      color: white; /* Define o texto padrão como branco */
+    }
 
-        .quadrado-central {
-            width: 300px;
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border-radius: 5px;
-            overflow: hidden;
-        }
+    header {
+      background-color: #000000;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      height: 60px;
+    }
 
-        .cabecalho {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            color: black;
-            padding: 10px;
-            font-family: 'Open Sauce', sans-serif;
-            font-weight: 700;
-        }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .circulo {
-            width: 30px;
-            height: 30px;
-            background-image: url('https://www.dropbox.com/scl/fi/d2nqa9ib3dctufiy6d8cu/109.webp?rlkey=rbthpxyv8zcylsizlfx2ff2mr&st=u2whv8im&raw=1');
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+    .circle {
+      width: 40px;
+      height: 40px;
+      background-image: url('https://www.dropbox.com/scl/fi/zy0twrb4kkiw6jpz6x0k3/bddca9b2-be2c-482a-88db-365fc02df813.webp?rlkey=0sq73i2gn70cu73wronaku0n9&st=30188tv8&raw=1');
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+    }
 
-        .cabecalho p {
-            margin: 0;
-        }
+    .text-container {
+      display: flex;
+      flex-direction: column;
+      color: white;
+      font-family: 'Open Sauce', sans-serif;
+    }
 
-        .quadrado-vazio {
-            width: 100%;
-            position: relative;
-        }
+    .text-container .subtitle {
+      font-family: 'Lato', sans-serif;
+      font-weight: bold;
+      font-size: 12px;
+      margin: 0;
+    }
 
-        .cabecalho-conteudo {
-            background-color: white;
-            color: black;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Open Sauce', sans-serif;
-            font-weight: 700;
-        }
+    .text-container .name {
+      font-size: 16px;
+      font-weight: normal;
+      margin: 0;
+    }
 
-        .left-icons {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .icon {
+      width: 30px;
+      height: 30px;
+      background-image: url('https://img.icons8.com/emoji/48/000000/crown-emoji.png'); /* Ícone de coroa */
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
 
-        .right-icons {
-            font-size: 1.2rem;
-        }
+    .rectangle {
+      width: 100%;
+      display: flex;
+      justify-content: center; /* Centraliza a imagem no retângulo */
+    }
 
-        .icon {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
+    .rectangle img {
+      display: block; /* Remove espaços extras ao redor da imagem */
+      width: 100%; /* Faz com que a imagem ocupe toda a largura */
+      height: auto; /* Ajusta a altura automaticamente conforme a proporção da imagem */
+    }
 
-        .icon i {
-            transition: color 0.3s;
-        }
+    .bottom-rectangle {
+      width: 100%;
+      height: 50px; /* Altura do retângulo inferior */
+      background-color: #1b1b1b; /* Mesma cor do fundo da página */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; /* Alinha os itens à esquerda */
+      gap: 20px; /* Espaçamento entre os elementos */
+      padding-left: 20px; /* Adiciona um pequeno espaçamento à esquerda */
+    }
 
-        .icon.clicked i {
-            color: red;
-        }
+    .bottom-rectangle .icone {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: white;
+      font-size: 14px;
+    }
 
-        .navigation {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
+    .bottom-rectangle .icone i {
+      font-size: 18px; /* Tamanho do ícone */
+    }
 
-        .navigation button {
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            pointer-events: all;
-            border-radius: 50%;
-        }
+    .bottom-rectangle span {
+      font-family: 'Lato', sans-serif;
+      font-weight: bold; /* Negrito */
+      font-size: 14px; /* Tamanho do texto */
+    }
 
-        .navigation button:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-    </style>
+    .exclusive-seal {
+      position: absolute;
+      right: 10px; /* Distância da borda direita */
+      font-family: 'Lato', sans-serif;
+      font-weight: bold;
+      font-size: 10px; /* Tamanho menor do texto */
+      background-color: #ffbc00; /* Cor amarela queimado do selo */
+      color: #1b1b1b; /* Cor do texto dentro do selo */
+      padding: 4px 10px;
+      border-radius: 15px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 <body>
-
-    <div class="quadrado-central">
-        <!-- Cabeçalho -->
-        <div class="cabecalho">
-            <div class="circulo"></div>
-            <p>Sarinha Leite</p>
-        </div>
-
-        <!-- Quadrado Vazio -->
-        <div class="quadrado-vazio" id="quadrado-vazio">
-            <img id="current-image" style="width: 100%; height: auto; display: block;" alt="Imagem Atual">
-            <div class="navigation">
-                <button id="prev">&lt;</button>
-                <button id="next">&gt;</button>
-            </div>
-        </div>
-
-        <!-- Segundo Cabeçalho -->
-        <div class="cabecalho-conteudo">
-            <div class="left-icons">
-                <div class="icon" id="like-button">
-                    <i class="fas fa-heart"></i>
-                    <span id="like-count">917</span>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-eye"></i>
-                    <span>2.7K</span>
-                </div>
-            </div>
-            <div class="right-icons">
-                <i class="fas fa-crown" style="color: gold;"></i>
-            </div>
-        </div>
+  <header>
+    <div class="logo-container">
+      <div class="circle"></div>
+      <div class="text-container">
+        <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
+        <p class="name">Sarinha Leite</p>
+      </div>
     </div>
-
-    <section id="images" style="display: none;">
-        <img src="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zlo8dk1z&raw=1" alt="Imagem 1">
-        <img src="https://www.dropbox.com/scl/fi/sy3eqnd1y7rql9jzf61fe/2.webp?rlkey=2gskkp8pt2aaiy5zezw7fbsnv&st=hx35swis&raw=1" alt="Imagem 2">
-        <img src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=5l8rfj4d&raw=1" alt="Imagem 3">
-    </section>
-
-    <script>
-        const quadradoVazio = document.getElementById('quadrado-vazio');
-        const currentImage = document.getElementById('current-image');
-        const images = Array.from(document.getElementById('images').getElementsByTagName('img'));
-        const prevButton = document.getElementById('prev');
-        const nextButton = document.getElementById('next');
-
-        let currentIndex = 0;
-
-        function updateImage() {
-            const selectedImage = images[currentIndex];
-            currentImage.src = selectedImage.src;
-
-            // Ajusta o tamanho do quadrado vazio automaticamente
-            currentImage.onload = () => {
-                quadradoVazio.style.height = `${currentImage.offsetHeight}px`;
-            };
-        }
-
-        prevButton.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateImage();
-        });
-
-        nextButton.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateImage();
-        });
-
-        // Inicializa com a primeira imagem
-        updateImage();
-
-        // Função para gerenciar o coração
-        const likeButton = document.getElementById('like-button');
-        const likeCount = document.getElementById('like-count');
-        let liked = false;
-
-        likeButton.addEventListener('click', () => {
-            liked = !liked;
-            likeButton.classList.toggle('clicked', liked);
-            likeCount.textContent = liked ? parseInt(likeCount.textContent) + 1 : parseInt(likeCount.textContent) - 1;
-        });
-    </script>
-
+    <div class="icon"></div>
+  </header>
+  <div class="rectangle">
+    <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem de fundo">
+  </div>
+  <div class="bottom-rectangle">
+    <div class="icone" id="like-button">
+      <i class="fas fa-heart"></i>
+      <span id="like-count">917</span>
+    </div>
+    <div class="icone">
+      <i class="fas fa-eye"></i>
+      <span>2.7K</span>
+    </div>
+    <div class="exclusive-seal">
+      Conteúdo Exclusivo
+    </div>
+  </div>
 </body>
 </html>
