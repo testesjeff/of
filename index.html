@@ -75,6 +75,7 @@
       display: flex;
       justify-content: center; /* Centraliza a imagem no retângulo */
       height: auto; /* Deixa a altura automática */
+      transition: background-image 0.5s ease-in-out; /* Transição suave */
       background-color: #2c2c2c; /* Cor de fundo caso a imagem não carregue */
       background-size: cover; /* Ajusta a imagem para cobrir toda a área do retângulo */
       background-position: center center; /* Centraliza a imagem */
@@ -150,7 +151,7 @@
             <div class="circle"></div>
             <div class="text-container">
               <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
-              <p class="name">arinha Leite</p>
+              <p class="name">Sarinha Leite</p>
             </div>
           </div>
           <div class="icon"></div>
@@ -161,14 +162,15 @@
     
         <section class="image-section" id="image-section">
           <!-- Adicione várias imagens aqui -->
-          <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
-          <img src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=9boy8raw&raw=1" alt="Imagem 2">
-          <img src="https://www.dropbox.com/scl/fi/pjp7oj79zbpkz03s5cz3u/13.webp?rlkey=iydk3o2rsipgxzn8xzxorelju&st=f1pkwngh&raw=1" alt="Imagem 3">
-          <img src="https://www.dropbox.com/scl/fi/3pehdt75cprc1e27tmhrz/7.webp?rlkey=wkhcr3qwaz8osvypfp7vabrnr&st=uq5tz6p8&raw=1" alt="Imagem 4">
-        </section>
+          <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1"
+          data-src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
+          <img data-src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=9boy8raw&raw=1" alt="Imagem 2">
+          <img data-src="https://www.dropbox.com/scl/fi/pjp7oj79zbpkz03s5cz3u/13.webp?rlkey=iydk3o2rsipgxzn8xzxorelju&st=f1pkwngh&raw=1" alt="Imagem 3">
+          <img data-src="https://www.dropbox.com/scl/fi/3pehdt75cprc1e27tmhrz/7.webp?rlkey=wkhcr3qwaz8osvypfp7vabrnr&st=uq5tz6p8&raw=1" alt="Imagem 4">
         </section>
     
         <div class="bottom-rectangle">
+          <span id="imageCounter" style="position: absolute; top: 10px; right: 10px; font-size: 20px; color: white;"></span>
           <div class="icone" id="like-button" onclick="toggleLike()">
             <i id="like-icon" class="fas fa-heart"></i>
             <span id="like-count">917</span>
@@ -184,14 +186,10 @@
       </div>
 
   <script>
-    let liked = false; // Estado inicial do like
     let currentImageIndex = 0; // Índice da imagem atual
-
     const images = document.querySelectorAll('#image-section img'); // Pega todas as imagens da seção
     const bottomRectangle = document.getElementById('bottom-rectangle');
-    const likeIcon = document.getElementById('like-icon');
-    const likeCount = document.getElementById('like-count');
-    
+
     // Função para carregar a imagem no retângulo
     function loadImage(index) {
       // Define a imagem como fundo do retângulo
@@ -203,54 +201,52 @@
       const imgWidth = img.width;
       const aspectRatio = imgHeight / imgWidth; // Proporção da imagem
       bottomRectangle.style.height = `${bottomRectangle.offsetWidth * aspectRatio}px`; // Calcula a altura
+
+      // Carrega a próxima imagem (se disponível)
+      const nextImageIndex = (index + 1) % images.length;
+      const nextImage = images[nextImageIndex];
+      nextImage.src = nextImage.getAttribute('data-src'); // Atribui o link para a próxima imagem
     }
 
-    // Carrega a primeira imagem quando a página carrega
+    // Carrega a primeira imagem e a próxima quando a página carrega
     window.onload = function() {
       loadImage(currentImageIndex);
-    };
 
-    // Função para alternar o like
-    function toggleLike() {
-      if (liked) {
-        likeIcon.classList.remove('liked');
-        likeCount.textContent = '917';
-      } else {
-        likeIcon.classList.add('liked');
-        likeCount.textContent = '918';
-      }
-      liked = !liked;
-    }
+      // Precarrega a próxima imagem
+      const nextImageIndex = (currentImageIndex + 1) % images.length;
+      const nextImage = images[nextImageIndex];
+      nextImage.src = nextImage.getAttribute('data-src');
+    };
 
     // Função para navegar pelas imagens com as teclas de seta
     document.addEventListener('keydown', function(event) {
-      if (event.key === 'ArrowRight') {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
+    if (event.key === 'ArrowRight' && currentImageIndex < images.length - 1) {
+        currentImageIndex = currentImageIndex + 1; // Só avança se não for a última imagem
         loadImage(currentImageIndex);
-      } else if (event.key === 'ArrowLeft') {
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    } else if (event.key === 'ArrowLeft' && currentImageIndex > 0) {
+        currentImageIndex = currentImageIndex - 1; // Só volta se não for a primeira imagem
         loadImage(currentImageIndex);
-      }
+    }
     });
 
     // Função para navegar pelas imagens com o toque (para dispositivos móveis)
     let startX = 0;
 
     bottomRectangle.addEventListener('touchstart', function(event) {
-      startX = event.touches[0].clientX;
+    startX = event.touches[0].clientX;
     });
 
     bottomRectangle.addEventListener('touchend', function(event) {
-      const endX = event.changedTouches[0].clientX;
-      if (startX - endX > 30) {
-        // Deslizar para a direita (próxima imagem)
+    const endX = event.changedTouches[0].clientX;
+    if (startX - endX > 30 && currentImageIndex < images.length - 1) {
+        // Deslizar para a direita (próxima imagem), mas não se estiver na última
         currentImageIndex = (currentImageIndex + 1) % images.length;
         loadImage(currentImageIndex);
-      } else if (endX - startX > 30) {
-        // Deslizar para a esquerda (imagem anterior)
+    } else if (endX - startX > 30 && currentImageIndex > 0) {
+        // Deslizar para a esquerda (imagem anterior), mas não se estiver na primeira
         currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
         loadImage(currentImageIndex);
-      }
+    }
     });
 
     // Calcula e define a altura máxima do retângulo ao carregar a página
@@ -267,6 +263,20 @@
     // Carrega a primeira imagem no retângulo
     loadImage(currentImageIndex);
     };
+    function toggleLike() {
+    const likeIcon = document.getElementById('like-icon');
+    const likeCount = document.getElementById('like-count');
+
+    // Adiciona ou remove a classe 'liked' para mudar a cor do coração
+    likeIcon.classList.toggle('liked');
+
+    // Atualiza o número de curtidas
+    if (likeIcon.classList.contains('liked')) {
+        likeCount.textContent = '918'; // Aumenta o número para 918
+    } else {
+        likeCount.textContent = '917'; // Volta para 917
+    }
+    }
   </script>
 </body>
 </html>
