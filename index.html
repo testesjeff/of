@@ -1,172 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-title" content="CodePen">
-  <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
-  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
-  <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
-  <title>Bootstrap 4 Lightbox Gallery</title>
-  <link rel="canonical" href="https://codepen.io/nsom/pen/VbqLew">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de Imagens</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a; /* Fundo cinza escuro */
+        }
 
-    body {
-        background-color: #010101;
-    }
+        .quadrado-central {
+            width: 300px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 5px;
+            overflow: hidden;
+        }
 
-    header {
-        background-color: #808080;
-        color: white;
-        text-align: center;
-        padding: 20px 0;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-    }
+        .cabecalho {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            color: black;
+            padding: 10px;
+            font-family: 'Open Sauce', sans-serif;
+            font-weight: 700;
+        }
 
-    header h1 {
-        margin: 0;
-        font-size: 24px;
-    }
+        .circulo {
+            width: 30px;
+            height: 30px;
+            background-image: url('https://www.dropbox.com/scl/fi/d2nqa9ib3dctufiy6d8cu/109.webp?rlkey=rbthpxyv8zcylsizlfx2ff2mr&st=u2whv8im&raw=1');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
 
-    section {
-        margin-top: 70px;
-        column-count: 3;
-        column-gap: 10px;
-        padding: 10px;
-        position: relative;
-    }
+        .cabecalho p {
+            margin: 0;
+        }
 
-    section a {
-        display: block;
-        margin-bottom: 10px;
-    }
+        .quadrado-vazio {
+            width: 100%;
+            position: relative;
+        }
 
-    /* Estilo do botão vermelho dentro da imagem */
-    .btn-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        background-color: red;
-        color: white;
-        padding: 5px;
-        border: none;
-        border-radius: 5px;
-        font-size: 10px;
-        cursor: pointer;
-        z-index: 9999;
-    }
+        .cabecalho-conteudo {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Open Sauce', sans-serif;
+            font-weight: 700;
+        }
 
-    .btn-close:hover {
-        background-color: darkred;
-    }
+        .left-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    /* Para a imagem dentro do modal */
-    .ekko-lightbox .modal-body {
-        position: relative;
-    }
+        .right-icons {
+            font-size: 1.2rem;
+        }
 
-    .ekko-lightbox .modal-body img {
-        opacity: 1 !important; /* Garante que as imagens no lightbox tenham opacidade 1 */
-        transition: none !important; /* Remove qualquer transição dentro do lightbox */
-    }
+        .icon {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
 
-    /* Estilo para a animação suave de carregamento */
-    img {
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
+        .icon i {
+            transition: color 0.3s;
+        }
 
-    img.loaded {
-      opacity: 1;
-    }
-  </style>
-  <script>
-    window.console = window.console || function(t) {};
-  </script>
+        .icon.clicked i {
+            color: red;
+        }
+
+        .navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .navigation button {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            pointer-events: all;
+            border-radius: 50%;
+        }
+
+        .navigation button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
+<body>
 
-<header>
-    <h1>ARINHA LEITE - GALERIA</h1>
-</header>
+    <div class="quadrado-central">
+        <!-- Cabeçalho -->
+        <div class="cabecalho">
+            <div class="circulo"></div>
+            <p>Sarinha Leite</p>
+        </div>
 
-<body translate="no">
+        <!-- Quadrado Vazio -->
+        <div class="quadrado-vazio" id="quadrado-vazio">
+            <img id="current-image" style="width: 100%; height: auto; display: block;" alt="Imagem Atual">
+            <div class="navigation">
+                <button id="prev">&lt;</button>
+                <button id="next">&gt;</button>
+            </div>
+        </div>
 
-    <section>
-      <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded" loading="lazy">
-      </a>
-      <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded" loading="lazy">
-      </a>
-      <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded" loading="lazy">
-      </a>
-      <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=254" class="img-fluid rounded" loading="lazy">
-      </a>
-      <a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=255" class="img-fluid rounded" loading="lazy">
-      </a>
-      <a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="gallery">
-        <img src="https://unsplash.it/600.jpg?image=256" class="img-fluid rounded" loading="lazy">
-      </a>
+        <!-- Segundo Cabeçalho -->
+        <div class="cabecalho-conteudo">
+            <div class="left-icons">
+                <div class="icon" id="like-button">
+                    <i class="fas fa-heart"></i>
+                    <span id="like-count">917</span>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-eye"></i>
+                    <span>2.7K</span>
+                </div>
+            </div>
+            <div class="right-icons">
+                <i class="fas fa-crown" style="color: gold;"></i>
+            </div>
+        </div>
+    </div>
+
+    <section id="images" style="display: none;">
+        <img src="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zlo8dk1z&raw=1" alt="Imagem 1">
+        <img src="https://www.dropbox.com/scl/fi/sy3eqnd1y7rql9jzf61fe/2.webp?rlkey=2gskkp8pt2aaiy5zezw7fbsnv&st=hx35swis&raw=1" alt="Imagem 2">
+        <img src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=5l8rfj4d&raw=1" alt="Imagem 3">
     </section>
 
+    <script>
+        const quadradoVazio = document.getElementById('quadrado-vazio');
+        const currentImage = document.getElementById('current-image');
+        const images = Array.from(document.getElementById('images').getElementsByTagName('img'));
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const images = document.querySelectorAll('.img-fluid');
-      
-      images.forEach((img) => {
-        img.addEventListener('load', () => {
-          img.classList.add('loaded'); // Adiciona a classe "loaded" após o carregamento
-        });
+        let currentIndex = 0;
 
-        // Caso a imagem já esteja no cache do navegador
-        if (img.complete) {
-          img.classList.add('loaded');
+        function updateImage() {
+            const selectedImage = images[currentIndex];
+            currentImage.src = selectedImage.src;
+
+            // Ajusta o tamanho do quadrado vazio automaticamente
+            currentImage.onload = () => {
+                quadradoVazio.style.height = `${currentImage.offsetHeight}px`;
+            };
         }
-      });
-    });
 
-    // Inicializa o Ekko Lightbox
-    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
-      event.preventDefault();
-      $(this).ekkoLightbox();
-    });
-  </script>
-  <script>
-    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
-      event.preventDefault();
-      var lightbox = $(this).ekkoLightbox({
-        backdrop: "static", // Evita fechar ao clicar fora
-        keyboard: false     // Opcional: Desativa fechamento com ESC
-      });
-  
-      // Adicionar o botão de Fechar dentro da imagem da lightbox
-      $(document).on('shown.bs.modal', function () {
-        var closeButton = $('<button class="btn-close">Fechar</button>');
-  
-        // Adicionar o botão de fechar dentro da imagem da lightbox
-        $('.ekko-lightbox .modal-body').append(closeButton);
-  
-        // Fechar a lightbox ao clicar no botão
-        closeButton.on('click', function () {
-          $('.ekko-lightbox').modal('hide');
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
         });
-      });
-    });
-  </script>
-  
-</body>
 
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        });
+
+        // Inicializa com a primeira imagem
+        updateImage();
+
+        // Função para gerenciar o coração
+        const likeButton = document.getElementById('like-button');
+        const likeCount = document.getElementById('like-count');
+        let liked = false;
+
+        likeButton.addEventListener('click', () => {
+            liked = !liked;
+            likeButton.classList.toggle('clicked', liked);
+            likeCount.textContent = liked ? parseInt(likeCount.textContent) + 1 : parseInt(likeCount.textContent) - 1;
+        });
+    </script>
+
+</body>
 </html>
