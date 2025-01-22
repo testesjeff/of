@@ -50,8 +50,9 @@
     .text-container .subtitle {
       font-family: 'Lato', sans-serif;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 10px;
       margin: 0;
+      margin-bottom: 5px;
     }
 
     .text-container .name {
@@ -132,44 +133,54 @@
     .image-section {
       display: none; /* Oculta inicialmente */
     }
+
+    .main-container {
+        width: 100vw; /* 100% da largura da janela */
+        height: 100vh; /* 100% da altura da janela */
+        overflow-x: hidden; /* Garante que o conteúdo do contêiner não cause barra horizontal */
+        display: flex;
+        flex-direction: column;
+    }
+
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo-container">
-      <div class="circle"></div>
-      <div class="text-container">
-        <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
-        <p class="name">Sarinha Leite</p>
+    <div class="main-container">
+        <header>
+          <div class="logo-container">
+            <div class="circle"></div>
+            <div class="text-container">
+              <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
+              <p class="name">arinha Leite</p>
+            </div>
+          </div>
+          <div class="icon"></div>
+        </header>
+        <div class="rectangle" id="bottom-rectangle">
+          <!-- A imagem será alterada dinamicamente -->
+        </div>
+    
+        <section class="image-section" id="image-section">
+          <!-- Adicione várias imagens aqui -->
+          <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
+          <img src="https://www.dropbox.com/scl/fi/2a9wjhxd3jkkkph7h3e2u/10.webp?rlkey=5zfr1mr3mm8zqs5rtgf9ozuqa&st=3m554lbi&raw=1" alt="Imagem 2">
+          <img src="https://www.dropbox.com/scl/fi/4hg5j1rtw8r7g5yfnrf62/11.webp?rlkey=j2ejeiw09cn0n04ujfe68xtpc&st=3m554kud&raw=1" alt="Imagem 3">
+        </section>
+    
+        <div class="bottom-rectangle">
+          <div class="icone" id="like-button" onclick="toggleLike()">
+            <i id="like-icon" class="fas fa-heart"></i>
+            <span id="like-count">917</span>
+          </div>
+          <div class="icone">
+            <i class="fas fa-eye"></i>
+            <span>2.7K</span>
+          </div>
+          <div class="exclusive-seal">
+            Conteúdo Exclusivo
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="icon"></div>
-  </header>
-  <div class="rectangle" id="bottom-rectangle">
-    <!-- A imagem será alterada dinamicamente -->
-  </div>
-
-  <section class="image-section" id="image-section">
-    <!-- Adicione várias imagens aqui -->
-    <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
-    <img src="https://www.dropbox.com/scl/fi/2a9wjhxd3jkkkph7h3e2u/10.webp?rlkey=5zfr1mr3mm8zqs5rtgf9ozuqa&st=3m554lbi&raw=1" alt="Imagem 2">
-    <img src="https://www.dropbox.com/scl/fi/4hg5j1rtw8r7g5yfnrf62/11.webp?rlkey=j2ejeiw09cn0n04ujfe68xtpc&st=3m554kud&raw=1" alt="Imagem 3">
-    <!-- Mais imagens podem ser adicionadas -->
-  </section>
-
-  <div class="bottom-rectangle">
-    <div class="icone" id="like-button" onclick="toggleLike()">
-      <i id="like-icon" class="fas fa-heart"></i>
-      <span id="like-count">917</span>
-    </div>
-    <div class="icone">
-      <i class="fas fa-eye"></i>
-      <span>2.7K</span>
-    </div>
-    <div class="exclusive-seal">
-      Conteúdo Exclusivo
-    </div>
-  </div>
 
   <script>
     let liked = false; // Estado inicial do like
@@ -240,6 +251,21 @@
         loadImage(currentImageIndex);
       }
     });
+
+    // Calcula e define a altura máxima do retângulo ao carregar a página
+    window.onload = function () {
+    // Calcula a altura disponível
+    const headerHeight = 60; // Altura do cabeçalho
+    const bottomHeight = 50; // Altura do retângulo inferior
+    const availableHeight = window.innerHeight - headerHeight - bottomHeight;
+
+    // Define a altura máxima do retângulo
+    const rectangle = document.getElementById('bottom-rectangle');
+    rectangle.style.maxHeight = `${availableHeight}px`;
+
+    // Carrega a primeira imagem no retângulo
+    loadImage(currentImageIndex);
+    };
   </script>
 </body>
 </html>
