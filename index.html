@@ -1,282 +1,438 @@
-<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cabeçalho</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> <!-- Lato em negrito -->
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #1b1b1b; /* Fundo do site */
-      color: white; /* Define o texto padrão como branco */
-      overflow-x: hidden; /* Bloqueia a criação da barra lateral */
-    }
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+    <title>Bootstrap 4 Lightbox Gallery</title>
+    <link rel="canonical" href="https://codepen.io/nsom/pen/VbqLew">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #000000;
+        }
+        .row {
+            margin: 15px;
+        }
 
-    header {
-      background-color: #000000;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      height: 60px;
-    }
+        .row a {
+            margin: 10px;
+        }
+        /* Estilo do popup */
+        .taxa-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .taxa-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin: 0 20px;
+        }
+        .taxa-header {
+            width: 100%;
+            background-color: #E74C3C;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .taxa-header span {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .taxa-header .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fffb00;
+        }
+        .taxa-content {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+        }
+        .taxa-content h2 {
+            margin: 30px 0 20px;
+            font-size: 20px;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+        .taxa-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .taxa-content button {
+            padding: 12px 20px;
+            background-color: #1d7530;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .taxa-content .emoji {
+            font-size: 40px;
+            margin-bottom: -20px;
+        }
+        .taxa-container + .taxa-container {
+            margin-top: 20px;
+        }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .circle {
-      width: 40px;
-      height: 40px;
-      background-image: url('https://www.dropbox.com/scl/fi/zy0twrb4kkiw6jpz6x0k3/bddca9b2-be2c-482a-88db-365fc02df813.webp?rlkey=0sq73i2gn70cu73wronaku0n9&st=30188tv8&raw=1');
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-    }
-
-    .text-container {
-      display: flex;
-      flex-direction: column;
-      color: white;
-      font-family: 'Open Sauce', sans-serif;
-    }
-
-    .text-container .subtitle {
-      font-family: 'Lato', sans-serif;
-      font-weight: bold;
-      font-size: 10px;
-      margin: 0;
-      margin-bottom: 5px;
-    }
-
-    .text-container .name {
-      font-size: 16px;
-      font-weight: normal;
-      margin: 0;
-    }
-
-    .icon {
-      width: 30px;
-      height: 30px;
-      background-image: url('https://img.icons8.com/emoji/48/000000/crown-emoji.png'); /* Ícone de coroa */
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .rectangle {
-      width: 100%;
-      display: flex;
-      justify-content: center; /* Centraliza a imagem no retângulo */
-      height: auto; /* Deixa a altura automática */
-      transition: background-image 0.5s ease-in-out; /* Transição suave */
-      background-color: #2c2c2c; /* Cor de fundo caso a imagem não carregue */
-      background-size: cover; /* Ajusta a imagem para cobrir toda a área do retângulo */
-      background-position: center center; /* Centraliza a imagem */
-    }
-
-    .bottom-rectangle {
-      width: 100%;
-      height: 50px; /* Altura do retângulo inferior */
-      background-color: #1b1b1b; /* Mesma cor do fundo da página */
-      display: flex;
-      align-items: center;
-      justify-content: flex-start; /* Alinha os itens à esquerda */
-      gap: 20px; /* Espaçamento entre os elementos */
-      padding-left: 20px; /* Adiciona um pequeno espaçamento à esquerda */
-    }
-
-    .bottom-rectangle .icone {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: white;
-      font-size: 14px;
-    }
-
-    .bottom-rectangle .icone i {
-      font-size: 18px; /* Tamanho do ícone */
-    }
-
-    .bottom-rectangle span {
-      font-family: 'Lato', sans-serif;
-      font-weight: bold; /* Negrito */
-      font-size: 14px; /* Tamanho do texto */
-    }
-
-    .exclusive-seal {
-      position: absolute;
-      right: 10px; /* Distância da borda direita */
-      font-family: 'Lato', sans-serif;
-      font-weight: bold;
-      font-size: 10px; /* Tamanho menor do texto */
-      background-color: #ffbc00; /* Cor amarela queimado do selo */
-      color: #1b1b1b; /* Cor do texto dentro do selo */
-      padding: 4px 10px;
-      border-radius: 15px;
-      text-transform: uppercase;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Estilo para o coração quando ele for clicado */
-    .liked {
-      color: red;
-    }
-
-    /* Estilo para a seção de imagens */
-    .image-section {
-      display: none; /* Oculta inicialmente */
-    }
-
-    .main-container {
-        width: 100vw; /* 100% da largura da janela */
-        height: 100vh; /* 100% da altura da janela */
-        overflow-x: hidden; /* Garante que o conteúdo do contêiner não cause barra horizontal */
-        display: flex;
-        flex-direction: column;
-    }
-
-  </style>
+        /* Estilo para desabilitar a rolagem */
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
 </head>
-<body>
-    <div class="main-container">
-        <header>
-          <div class="logo-container">
-            <div class="circle"></div>
-            <div class="text-container">
-              <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
-              <p class="name">Sarinha Leite</p>
+<body translate="no" style="padding-right: 17px;">
+    <div class="container">
+        <div class="row">
+            <a href="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zhj10aon&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zhj10aon&raw=1" class="img-fluid rounded">
+            </a>
+            <a href="https://www.dropbox.com/scl/fi/sy3eqnd1y7rql9jzf61fe/2.webp?rlkey=2gskkp8pt2aaiy5zezw7fbsnv&st=p62h97l5&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/sy3eqnd1y7rql9jzf61fe/2.webp?rlkey=2gskkp8pt2aaiy5zezw7fbsnv&st=p62h97l5&raw=1" class="img-fluid rounded">
+            </a>
+            <a href="https://www.dropbox.com/scl/fi/ersn33i145czg5xvnbk1n/3.webp?rlkey=1xrizj9j4b7o368fi607bcd87&st=3e29m3ce&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/ersn33i145czg5xvnbk1n/3.webp?rlkey=1xrizj9j4b7o368fi607bcd87&st=3e29m3ce&raw=1" class="img-fluid rounded">
+            </a>
+        </div>
+        <div class="row">
+            <a href="https://www.dropbox.com/scl/fi/ohz9j85atykpn8k8tjf4e/4.webp?rlkey=5su6fodossszejrpb93j1jax6&st=ot9dw9nz&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/ohz9j85atykpn8k8tjf4e/4.webp?rlkey=5su6fodossszejrpb93j1jax6&st=ot9dw9nz&raw=1" class="img-fluid rounded">
+            </a>
+            <a href="https://www.dropbox.com/scl/fi/jyuoq1pcj4khmqxo8tszl/5.webp?rlkey=0suoi4zp2uj3npr09hz0gle9o&st=70zi3p8y&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/jyuoq1pcj4khmqxo8tszl/5.webp?rlkey=0suoi4zp2uj3npr09hz0gle9o&st=70zi3p8y&raw=1" class="img-fluid rounded">
+            </a>
+            <a href="https://www.dropbox.com/scl/fi/shqnlmgb2elqh1xplu2fe/6.webp?rlkey=7yv7cb41hiyo8ks7iui7n82zw&st=yoh26h84&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+                <img src="https://www.dropbox.com/scl/fi/shqnlmgb2elqh1xplu2fe/6.webp?rlkey=7yv7cb41hiyo8ks7iui7n82zw&st=yoh26h84&raw=1" class="img-fluid rounded">
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/3pehdt75cprc1e27tmhrz/7.webp?rlkey=wkhcr3qwaz8osvypfp7vabrnr&st=bvlyuap5&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/3pehdt75cprc1e27tmhrz/7.webp?rlkey=wkhcr3qwaz8osvypfp7vabrnr&st=bvlyuap5&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/tub9lopft0wuv3p8wwrz6/8.webp?rlkey=xhfv0e6klg7ojjudytii60i40&st=s0laaqcb&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/tub9lopft0wuv3p8wwrz6/8.webp?rlkey=xhfv0e6klg7ojjudytii60i40&st=s0laaqcb&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=hkarkhgk&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=hkarkhgk&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/ms5rxfhqvfhzxo7yxma8s/10.webp?rlkey=gl19gvoxpaen7sis29ob3l5jw&st=787as9jc&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/ms5rxfhqvfhzxo7yxma8s/10.webp?rlkey=gl19gvoxpaen7sis29ob3l5jw&st=787as9jc&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/xt84ef838979kxyu1qfqx/11.webp?rlkey=r622sstwjy2td171tltwy626l&st=jkyz1wbj&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/xt84ef838979kxyu1qfqx/11.webp?rlkey=r622sstwjy2td171tltwy626l&st=jkyz1wbj&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=l701cemv&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=l701cemv&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/pjp7oj79zbpkz03s5cz3u/13.webp?rlkey=iydk3o2rsipgxzn8xzxorelju&st=cd7z7bm4&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/pjp7oj79zbpkz03s5cz3u/13.webp?rlkey=iydk3o2rsipgxzn8xzxorelju&st=cd7z7bm4&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/tnvzbldh60y8q3vkp8pf6/14.webp?rlkey=lor7ggl844c67kysvgoz8i8n7&st=lsw2udn4&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/tnvzbldh60y8q3vkp8pf6/14.webp?rlkey=lor7ggl844c67kysvgoz8i8n7&st=lsw2udn4&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/zm9fvi6ht8n2a5jdw3t1a/15.webp?rlkey=3z0ho52hjj8v0uwuirkbtybnv&st=vtqmn52r&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/zm9fvi6ht8n2a5jdw3t1a/15.webp?rlkey=3z0ho52hjj8v0uwuirkbtybnv&st=vtqmn52r&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/0ksc3e9tvtjjv7h0dmsm2/16.webp?rlkey=7ruu2g4bhc378tmpjgjt7xrwr&st=iffc1svu&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/0ksc3e9tvtjjv7h0dmsm2/16.webp?rlkey=7ruu2g4bhc378tmpjgjt7xrwr&st=iffc1svu&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/2arzu31sdg9k78wesr1ei/17.webp?rlkey=trgwgmrlvvifrgh10snett0wu&st=d1wvtt0l&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/2arzu31sdg9k78wesr1ei/17.webp?rlkey=trgwgmrlvvifrgh10snett0wu&st=d1wvtt0l&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/di84zpk0bqhu1esrvr36x/18.webp?rlkey=tnwe6eygudqndqzy1gxh6kqtt&st=0jemwpib&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/di84zpk0bqhu1esrvr36x/18.webp?rlkey=tnwe6eygudqndqzy1gxh6kqtt&st=0jemwpib&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/4w7gmqdnbu7752qmtqn3y/19.webp?rlkey=r13vb5e4yn1ui0hm13roxc4lj&st=db186j6k&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/4w7gmqdnbu7752qmtqn3y/19.webp?rlkey=r13vb5e4yn1ui0hm13roxc4lj&st=db186j6k&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/aazhpzlyb77tswk18s3p1/20.webp?rlkey=s1k0r5f4ajpvdxtk5iphlegth&st=6ip2xw3d&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/aazhpzlyb77tswk18s3p1/20.webp?rlkey=s1k0r5f4ajpvdxtk5iphlegth&st=6ip2xw3d&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/04mgxrv0cw96voyicjylx/21.webp?rlkey=43cc8r6tcegl3mrg16jy9cqc4&st=kbd5g9g0&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/04mgxrv0cw96voyicjylx/21.webp?rlkey=43cc8r6tcegl3mrg16jy9cqc4&st=kbd5g9g0&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/vnrkkmz2s63q16p9gq1xl/22.webp?rlkey=39iozwcrhi499pqlmywn85f1x&st=ortt0yb0&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/vnrkkmz2s63q16p9gq1xl/22.webp?rlkey=39iozwcrhi499pqlmywn85f1x&st=ortt0yb0&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/qlaoioztputp3obhg6qjp/23.webp?rlkey=25klilh63ng6csvpe9bcts0yb&st=jbiioyb2&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/qlaoioztputp3obhg6qjp/23.webp?rlkey=25klilh63ng6csvpe9bcts0yb&st=jbiioyb2&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/sjmd67vtww7zfr1ttekwt/24.webp?rlkey=lvghqq86wcrnnjge5hzvb2ib0&st=ync3ckk2&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/sjmd67vtww7zfr1ttekwt/24.webp?rlkey=lvghqq86wcrnnjge5hzvb2ib0&st=ync3ckk2&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/kxw1r48osnanxwysbkhxd/25.webp?rlkey=bv99vc0ntoq3mtpwi1al3nxup&st=enyxg757&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/kxw1r48osnanxwysbkhxd/25.webp?rlkey=bv99vc0ntoq3mtpwi1al3nxup&st=enyxg757&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/dsaxhwldt9q5u2rxmpbca/26.webp?rlkey=hljy23dunenigqd6ej8tba574&st=i8campuk&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/dsaxhwldt9q5u2rxmpbca/26.webp?rlkey=hljy23dunenigqd6ej8tba574&st=i8campuk&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/1qua9zi0ijf1d59g8vzgj/27.webp?rlkey=x68xs6vo4j9ggtzzyfzby1jyn&st=76w4xvas&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/1qua9zi0ijf1d59g8vzgj/27.webp?rlkey=x68xs6vo4j9ggtzzyfzby1jyn&st=76w4xvas&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/8jik15wykk2xe3gmuh3en/28.webp?rlkey=a392lzob3relrci9goq1r3w8m&st=j1x9ivf2&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/8jik15wykk2xe3gmuh3en/28.webp?rlkey=a392lzob3relrci9goq1r3w8m&st=j1x9ivf2&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/r0u7fnn5l9q722lpowjkl/29.webp?rlkey=sjexpl6znl9m7m6pulo03a0q4&st=a4x33900&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/r0u7fnn5l9q722lpowjkl/29.webp?rlkey=sjexpl6znl9m7m6pulo03a0q4&st=a4x33900&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/iym0xb0l6ohpcr9r1tbar/30.webp?rlkey=vyvdzepka8wgh5retj4ockcl4&st=ala0afth&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/iym0xb0l6ohpcr9r1tbar/30.webp?rlkey=vyvdzepka8wgh5retj4ockcl4&st=ala0afth&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/u4go20zxdo713s32ly6mu/31.webp?rlkey=mz06mwub5xtshrlsfwg9autkf&st=hsbjri4g&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/u4go20zxdo713s32ly6mu/31.webp?rlkey=mz06mwub5xtshrlsfwg9autkf&st=hsbjri4g&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/9lm1aq0fi2n4uh7miyv0t/32.webp?rlkey=lb0cizcjr8bqw64h16gz74x1k&st=wx6esqib&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/9lm1aq0fi2n4uh7miyv0t/32.webp?rlkey=lb0cizcjr8bqw64h16gz74x1k&st=wx6esqib&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/qua09x9orp4mdw3if8hmg/33.webp?rlkey=5odp9f7ja3mz5rhpuqw4qghwv&st=3q0rr0g5&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/qua09x9orp4mdw3if8hmg/33.webp?rlkey=5odp9f7ja3mz5rhpuqw4qghwv&st=3q0rr0g5&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/gbppnft6gaay41cro95a7/34.webp?rlkey=pn32m5jh4o8uo2a2b0tvk1prq&st=2ys4jo65&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/gbppnft6gaay41cro95a7/34.webp?rlkey=pn32m5jh4o8uo2a2b0tvk1prq&st=2ys4jo65&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/hdxfngg5krgeugsgoyhdw/35.webp?rlkey=4jw70bvq75evut1vlk779a46b&st=0og5vj8c&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/hdxfngg5krgeugsgoyhdw/35.webp?rlkey=4jw70bvq75evut1vlk779a46b&st=0og5vj8c&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/828d6nknxvj3s7ii1apux/36.webp?rlkey=cg7fushlaute78x95e4h9i35u&st=5s2y4rfb&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/828d6nknxvj3s7ii1apux/36.webp?rlkey=cg7fushlaute78x95e4h9i35u&st=5s2y4rfb&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/fzv656x9sn646uzn6ndsh/37.webp?rlkey=kv93f1qrkeevbbqklplh3ee2v&st=70mx443u&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/fzv656x9sn646uzn6ndsh/37.webp?rlkey=kv93f1qrkeevbbqklplh3ee2v&st=70mx443u&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/yecsmtstfs2qvirskj9kw/38.webp?rlkey=y6ia6t0vl2e1xy1k2lb4jd8ax&st=yrizxn07&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/yecsmtstfs2qvirskj9kw/38.webp?rlkey=y6ia6t0vl2e1xy1k2lb4jd8ax&st=yrizxn07&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/564eyfl44j5o17ip2w5dj/39.webp?rlkey=ypf4su895qgl5ah71oruk3oc1&st=l2clnr0t&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/564eyfl44j5o17ip2w5dj/39.webp?rlkey=ypf4su895qgl5ah71oruk3oc1&st=l2clnr0t&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/7zzrfco8r4dgyrn5mt8tk/40.webp?rlkey=l6jdg0xdb03gym8xdkahbpiqt&st=3q9hueto&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/7zzrfco8r4dgyrn5mt8tk/40.webp?rlkey=l6jdg0xdb03gym8xdkahbpiqt&st=3q9hueto&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/lz31y1pl56f53jkqwl55m/41.webp?rlkey=htwq7l6anw9bmi1k0zw9aw3bd&st=fqujvuz8&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/lz31y1pl56f53jkqwl55m/41.webp?rlkey=htwq7l6anw9bmi1k0zw9aw3bd&st=fqujvuz8&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/48mqz7c25xejyi666lpuo/42.webp?rlkey=m8b589xb2o4c57i6ni4yrn726&st=2tqdhy7w&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/48mqz7c25xejyi666lpuo/42.webp?rlkey=m8b589xb2o4c57i6ni4yrn726&st=2tqdhy7w&raw=1" class="img-fluid rounded">
+        </a>
+    </div>
+    <div class="row">
+        <a href="https://www.dropbox.com/scl/fi/whwd868hmvqucarswz5ef/43.webp?rlkey=swz1wd9htybya68k67nrkavy5&st=t94eeaj0&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/whwd868hmvqucarswz5ef/43.webp?rlkey=swz1wd9htybya68k67nrkavy5&st=t94eeaj0&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/k1i8fojbdfi5osepcnq24/44.webp?rlkey=waqxgle304tunq2ffgle24ns6&st=pdonidzg&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/k1i8fojbdfi5osepcnq24/44.webp?rlkey=waqxgle304tunq2ffgle24ns6&st=pdonidzg&raw=1" class="img-fluid rounded">
+        </a>
+        <a href="https://www.dropbox.com/scl/fi/k0zdhxai7xrnc790wo2h7/45.webp?rlkey=lof2v94ewsst38zdvgw5i3ffx&st=oy2o9ozi&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
+            <img src="https://www.dropbox.com/scl/fi/k0zdhxai7xrnc790wo2h7/45.webp?rlkey=lof2v94ewsst38zdvgw5i3ffx&st=oy2o9ozi&raw=1" class="img-fluid rounded">
+        </a>
+    </div>    
+
+    <!-- Popup de taxa -->
+    <div class="taxa-overlay" id="taxa-initial">
+        <div class="taxa-container">
+            <div class="taxa-header">
+                <span>O preço vai aumentar em:</span>
+                <span class="timer" id="countdown-timer">17:00</span>
             </div>
-          </div>
-          <div class="icon"></div>
-        </header>
-        <div class="rectangle" id="bottom-rectangle">
-          <!-- A imagem será alterada dinamicamente -->
+            <div class="taxa-content">
+                <h2>Acesso Premium Por <span style="color: #1d7530;">R$9,90</span></h2>
+                <p>Para acessar o conteúdo exclusivo, é necessário pagar a taxa de R$9,90 via PIX.</p>
+                <button id="pay-pix-button">Garantir Acesso</button>
+            </div>
         </div>
-    
-        <section class="image-section" id="image-section">
-          <!-- Adicione várias imagens aqui -->
-          <img src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1"
-          data-src="https://www.dropbox.com/scl/fi/opevfebgtkmke3ybbqvx5/9.webp?rlkey=iduq7ve9dylmybp2ged8vz2na&st=3m554lbj&raw=1" alt="Imagem 1">
-          <img data-src="https://www.dropbox.com/scl/fi/wdlmn9v3nlx0lfv37mxig/12.webp?rlkey=g3zb6fmdxwth0pg4nwsxggdn8&st=9boy8raw&raw=1" alt="Imagem 2">
-          <img data-src="https://www.dropbox.com/scl/fi/pjp7oj79zbpkz03s5cz3u/13.webp?rlkey=iydk3o2rsipgxzn8xzxorelju&st=f1pkwngh&raw=1" alt="Imagem 3">
-          <img data-src="https://www.dropbox.com/scl/fi/3pehdt75cprc1e27tmhrz/7.webp?rlkey=wkhcr3qwaz8osvypfp7vabrnr&st=uq5tz6p8&raw=1" alt="Imagem 4">
-        </section>
-    
-        <div class="bottom-rectangle">
-          <span id="imageCounter" style="position: absolute; top: 10px; right: 10px; font-size: 20px; color: white;"></span>
-          <div class="icone" id="like-button" onclick="toggleLike()">
-            <i id="like-icon" class="fas fa-heart"></i>
-            <span id="like-count">917</span>
-          </div>
-          <div class="icone">
-            <i class="fas fa-eye"></i>
-            <span>2.7K</span>
-          </div>
-          <div class="exclusive-seal">
-            Conteúdo Exclusivo
-          </div>
+    </div>
+
+    <div class="taxa-overlay" id="taxa-pix-copied" style="display: none;">
+        <div class="taxa-container">
+            <div class="taxa-header">
+                <span>O preço vai aumentar em:</span>
+                <span class="timer" id="countdown-timer-copy"></span>
+            </div>
+            <div class="taxa-content">
+                <div class="emoji">😊</div>
+                <h2>PIX Copiado!</h2>
+                <p>Abra o aplicativo do seu banco e faça o pagamento. O acesso será liberado imediatamente.</p>
+            </div>
         </div>
-      </div>
+    </div>
 
-  <script>
-    let currentImageIndex = 0; // Índice da imagem atual
-    const images = document.querySelectorAll('#image-section img'); // Pega todas as imagens da seção
-    const bottomRectangle = document.getElementById('bottom-rectangle');
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <script id="rendered-js">
+        $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+    
+        // Fecha automaticamente a lightbox após 30 segundos se ela estiver aberta
+        $(document).ready(function() {
+            setTimeout(function() {
+                if ($('.ekko-lightbox').hasClass('show')) {
+                    $('.ekko-lightbox').modal('hide');
+                }
+            }, 59999); // 30000 milissegundos = 30 segundos
+        });
+    
+        document.addEventListener('DOMContentLoaded', function () {
+        let countdownDuration = 17 * 60; // 17 minutos em segundos
+        let remainingTime = countdownDuration; // Inicializa com a duração total
+        let timerInterval;
 
-    // Função para carregar a imagem no retângulo
-    function loadImage(index) {
-      // Define a imagem como fundo do retângulo
-      const img = images[index];
-      bottomRectangle.style.backgroundImage = `url('${img.src}')`;
-      
-      // Ajusta a altura do retângulo dinamicamente com base nas proporções da imagem
-      const imgHeight = img.height;
-      const imgWidth = img.width;
-      const aspectRatio = imgHeight / imgWidth; // Proporção da imagem
-      bottomRectangle.style.height = `${bottomRectangle.offsetWidth * aspectRatio}px`; // Calcula a altura
+        // Função para iniciar a contagem regressiva
+        function startCountdown(display) {
+            let timer = remainingTime; // Começa a contagem do tempo restante
 
-      // Carrega a próxima imagem (se disponível)
-      const nextImageIndex = (index + 1) % images.length;
-      const nextImage = images[nextImageIndex];
-      nextImage.src = nextImage.getAttribute('data-src'); // Atribui o link para a próxima imagem
-    }
+            // Limpa qualquer contagem anterior
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
 
-    // Carrega a primeira imagem e a próxima quando a página carrega
-    window.onload = function() {
-      loadImage(currentImageIndex);
+            timerInterval = setInterval(function () {
+                remainingTime = timer; // Atualiza o tempo restante
 
-      // Precarrega a próxima imagem
-      const nextImageIndex = (currentImageIndex + 1) % images.length;
-      const nextImage = images[nextImageIndex];
-      nextImage.src = nextImage.getAttribute('data-src');
-    };
+                let minutes = parseInt(timer / 60, 10);
+                let seconds = parseInt(timer % 60, 10);
 
-    // Função para navegar pelas imagens com as teclas de seta
-    document.addEventListener('keydown', function(event) {
-    if (event.key === 'ArrowRight' && currentImageIndex < images.length - 1) {
-        currentImageIndex = currentImageIndex + 1; // Só avança se não for a última imagem
-        loadImage(currentImageIndex);
-    } else if (event.key === 'ArrowLeft' && currentImageIndex > 0) {
-        currentImageIndex = currentImageIndex - 1; // Só volta se não for a primeira imagem
-        loadImage(currentImageIndex);
-    }
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "00:00"; // Finaliza a contagem com 00:00
+                }
+            }, 1000);
+        }
+
+        // Exibe o popup inicial e inicia a contagem regressiva
+        setTimeout(function () {
+            const popup = document.getElementById('taxa-initial');
+            const countdownTimer = document.getElementById('countdown-timer');
+            if (popup) {
+                popup.style.display = 'flex';
+                document.body.classList.add('no-scroll'); // Remove a rolagem
+
+                // Inicia a contagem regressiva
+                if (countdownTimer) {
+                    startCountdown(countdownTimer);
+                }
+            }
+        }, 60000); // 30000 milissegundos = 30 segundos
+
+        // Função para abrir o novo popup ao clicar no botão
+        const payPixButton = document.getElementById('pay-pix-button');
+        if (payPixButton) {
+            payPixButton.addEventListener('click', function () {
+                // Fecha o popup atual
+                const currentPopup = document.getElementById('taxa-initial');
+                if (currentPopup) {
+                    currentPopup.style.display = 'none';
+                }
+
+                // Exibe o novo popup
+                const newPopup = document.getElementById('taxa-pix-copied');
+                if (newPopup) {
+                    const countdownTimerCopy = document.getElementById('countdown-timer-copy');
+                    
+                    // Atualiza o contador imediatamente antes de exibir o popup
+                    if (countdownTimerCopy) {
+                        let minutes = parseInt(remainingTime / 60, 10);
+                        let seconds = parseInt(remainingTime % 60, 10);
+
+                        minutes = minutes < 10 ? "0" + minutes : minutes;
+                        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                        countdownTimerCopy.textContent = minutes + ":" + seconds;
+                        
+                        // Retoma a contagem regressiva no novo popup
+                        startCountdown(countdownTimerCopy);
+                    }
+
+                    newPopup.style.display = 'flex';
+                    document.body.classList.add('no-scroll'); // Remove a rolagem
+                }
+            });
+        }
     });
 
-    // Função para navegar pelas imagens com o toque (para dispositivos móveis)
-    let startX = 0;
+    document.addEventListener('DOMContentLoaded', function () {
+        const payPixButton = document.getElementById('pay-pix-button');
 
-    bottomRectangle.addEventListener('touchstart', function(event) {
-    startX = event.touches[0].clientX;
+        if (payPixButton) {
+            // Remove o foco visual ao clicar no botão
+            payPixButton.addEventListener('mousedown', function (event) {
+                event.preventDefault();
+                payPixButton.blur();
+            });
+
+            // Adiciona funcionalidade para copiar "oi" ao clipboard
+            payPixButton.addEventListener('click', function () {
+                navigator.clipboard.writeText('00020101021126580014br.gov.bcb.pix01362fc8fd02-fa45-4ff3-80a4-1c2f3439231b52040000530398654041.995802BR5907LIVEPIX6009SAO PAULO6228052467926e259da10583760d00e96304B76E').then(function () {
+                    console.log('Texto copiado para a área de transferência.');
+                }).catch(function (err) {
+                    console.error('Erro ao copiar para o clipboard: ', err);
+                });
+            });
+        }
     });
-
-    bottomRectangle.addEventListener('touchend', function(event) {
-    const endX = event.changedTouches[0].clientX;
-    if (startX - endX > 30 && currentImageIndex < images.length - 1) {
-        // Deslizar para a direita (próxima imagem), mas não se estiver na última
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        loadImage(currentImageIndex);
-    } else if (endX - startX > 30 && currentImageIndex > 0) {
-        // Deslizar para a esquerda (imagem anterior), mas não se estiver na primeira
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-        loadImage(currentImageIndex);
-    }
-    });
-
-    // Calcula e define a altura máxima do retângulo ao carregar a página
-    window.onload = function () {
-    // Calcula a altura disponível
-    const headerHeight = 60; // Altura do cabeçalho
-    const bottomHeight = 50; // Altura do retângulo inferior
-    const availableHeight = window.innerHeight - headerHeight - bottomHeight;
-
-    // Define a altura máxima do retângulo
-    const rectangle = document.getElementById('bottom-rectangle');
-    rectangle.style.maxHeight = `${availableHeight}px`;
-
-    // Carrega a primeira imagem no retângulo
-    loadImage(currentImageIndex);
-    };
-    function toggleLike() {
-    const likeIcon = document.getElementById('like-icon');
-    const likeCount = document.getElementById('like-count');
-
-    // Adiciona ou remove a classe 'liked' para mudar a cor do coração
-    likeIcon.classList.toggle('liked');
-
-    // Atualiza o número de curtidas
-    if (likeIcon.classList.contains('liked')) {
-        likeCount.textContent = '918'; // Aumenta o número para 918
-    } else {
-        likeCount.textContent = '917'; // Volta para 917
-    }
-    }
-  </script>
+    </script>
 </body>
 </html>
