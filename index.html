@@ -217,6 +217,11 @@
         .taxa-container + .taxa-container {
             margin-top: 20px; /* Adiciona afastamento entre o cronômetro e a taxa de pagamento */
         }
+
+        a:focus, a:active, img:focus, img:active {
+            outline: none;
+            -webkit-tap-highlight-color: transparent; /* Remove a cor de destaque do toque */
+        }
     </style>
 </head>
 <body>
@@ -226,7 +231,7 @@
           <div class="circle"></div>
           <div class="text-container">
             <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
-            <p class="name">Sarinha Leite</p>
+            <p class="name">arinha Leite</p>
           </div>
         </div>
         <div class="icon"></div>
@@ -402,7 +407,7 @@
             </div>
             <div class="taxa-content">
                 <h2>Acesso Premium Por <span style="color: #1d7530;">R$1,99</span></h2>
-                <p>Obtenha acesso exclusivo a muitos vídeos e fotos exclusivos por apenas R$1,99 via PIX.</p>
+                <p>Obtenha acesso exclusivo a muitos vídeos e fotos por apenas R$1,99 via PIX.</p>
                 <button id="pay-pix-button">Copiar Pix</button>
             </div>
         </div>
