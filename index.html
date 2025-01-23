@@ -1,27 +1,138 @@
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
-    <meta name="apple-mobile-web-app-title" content="CodePen">
-    <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
-    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
-    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
-    <title>Bootstrap 4 Lightbox Gallery</title>
-    <link rel="canonical" href="https://codepen.io/nsom/pen/VbqLew">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> <!-- Lato em negrito -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>Sarinha Leite</title>
     <style>
         body {
-            background-color: #000000;
-            overflow-x: hidden;
+            background-color: #1b1b1b;
+            font-family: Arial, sans-serif;
+            margin: 0;
         }
+
+        header {
+            background-color: #000000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        }
+
+        .circle {
+        width: 40px;
+        height: 40px;
+        background-image: url('https://www.dropbox.com/scl/fi/zy0twrb4kkiw6jpz6x0k3/bddca9b2-be2c-482a-88db-365fc02df813.webp?rlkey=0sq73i2gn70cu73wronaku0n9&st=30188tv8&raw=1');
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        margin-left: 10px;
+        }
+
+        .text-container {
+        display: flex;
+        flex-direction: column;
+        color: white;
+        font-family: 'Open Sauce', sans-serif;
+        }
+
+        .text-container .subtitle {
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        font-size: 10px;
+        margin: 0;
+        margin-bottom: 5px;
+        }
+
+        .text-container .name {
+        font-size: 16px;
+        font-weight: normal;
+        margin: 0;
+        }
+
+        .icon {
+        width: 30px;
+        height: 30px;
+        background-image: url('https://img.icons8.com/emoji/48/000000/crown-emoji.png'); /* Ícone de coroa */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-right: 10px;
+        }
+
+        section {
+            column-count: 3;
+            column-gap: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
         img {
             width: 100%;
             border-radius: 4px;
             margin-bottom: 10px;
             cursor: pointer;
         }
-        /* Estilo do popup */
+
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            padding: 16px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .prev:hover, .next:hover {
+            color: #ff6347;
+        }
+
         .taxa-overlay {
             position: fixed;
             top: 0;
@@ -29,7 +140,7 @@
             width: 100%;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.6);
-            display: none;
+            display: none; /* Esconde inicialmente */
             align-items: center;
             justify-content: center;
             z-index: 9999;
@@ -37,12 +148,12 @@
         .taxa-container {
             width: 100%;
             max-width: 400px;
-            padding: 0 20px;
+            padding: 0 20px; /* Afastamento lateral do container */
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            margin: 0 20px;
+            margin: 0 20px; /* Margem para o espaçamento lateral */
         }
         .taxa-header {
             width: 100%;
@@ -69,14 +180,14 @@
         }
         .taxa-content {
             background-color: white;
-            padding: 10px 20px;
+            padding: 10px 20px; /* Diminuiu o padding para reduzir a altura */
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
             width: 100%;
         }
         .taxa-content h2 {
-            margin: 30px 0 20px;
+            margin: 30px 0 20px; /* Diminuiu o espaçamento para reduzir a altura */
             font-size: 20px;
             font-family: 'Roboto', sans-serif;
             color: #333;
@@ -96,40 +207,31 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         .taxa-content .emoji {
             font-size: 40px;
             margin-bottom: -20px;
         }
+        /* Afastamento entre as taxas */
         .taxa-container + .taxa-container {
-            margin-top: 20px;
-        }
-
-        /* Estilo para desabilitar a rolagem */
-        .no-scroll {
-            overflow: hidden;
-        }
-
-        section {
-            margin-top: 5px;
-            column-count: 3;
-            column-gap: 10px;
-            padding: 10px;
-            position: relative;
-            margin-left: -30px;
-        }
-
-        .container {
-            width: 100%;
+            margin-top: 20px; /* Adiciona afastamento entre o cronômetro e a taxa de pagamento */
         }
     </style>
-    <script>
-        window.console = window.console || function(t) {};
-    </script>
 </head>
 <body>
 
-<div class="container">
+    <header>
+        <div class="logo-container">
+          <div class="circle"></div>
+          <div class="text-container">
+            <p class="subtitle">CONTEÚDO EXCLUSIVO DE</p>
+            <p class="name">Sarinha Leite</p>
+          </div>
+        </div>
+        <div class="icon"></div>
+      </header>
+
     <section>
         <a href="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zhj10aon&raw=1" data-toggle="lightbox" data-gallery="gallery" class="col-md-4">
             <img src="https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zhj10aon&raw=1" class="img-fluid rounded">
@@ -267,9 +369,16 @@
             <img src="https://www.dropbox.com/scl/fi/k0zdhxai7xrnc790wo2h7/45.webp?rlkey=lof2v94ewsst38zdvgw5i3ffx&st=oy2o9ozi&raw=1" class="img-fluid rounded">
         </a>  
     </section>
-</div>
 
-    <!-- Popup de taxa -->
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="prev" onclick="changeImage(-1)">&#10094;</span>
+            <img id="lightboxImage" src="" alt="Image">
+            <span class="next" onclick="changeImage(1)">&#10095;</span>
+        </div>
+    </div>
+
     <div class="taxa-overlay" id="taxa-initial">
         <div class="taxa-container">
             <div class="taxa-header">
@@ -279,7 +388,7 @@
             <div class="taxa-content">
                 <h2>Acesso Premium Por <span style="color: #1d7530;">R$9,90</span></h2>
                 <p>Para acessar o conteúdo exclusivo, é necessário pagar a taxa de R$9,90 via PIX.</p>
-                <button id="pay-pix-button">Garantir Acesso</button>
+                <button id="pay-pix-button">Pagar Taxa</button>
             </div>
         </div>
     </div>
@@ -288,7 +397,7 @@
         <div class="taxa-container">
             <div class="taxa-header">
                 <span>O preço vai aumentar em:</span>
-                <span class="timer" id="countdown-timer-copy"></span>
+                <span class="timer" id="countdown-timer-copy">17:00</span>
             </div>
             <div class="taxa-content">
                 <div class="emoji">😊</div>
@@ -298,127 +407,122 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-    <script id="rendered-js">
-        $(document).on("click", '[data-toggle="lightbox"]', function (event) {
-            event.preventDefault();
-            $(this).ekkoLightbox();
-        });
+    <script>
+        let currentImageIndex = 0;
+        const images = [
+            "https://www.dropbox.com/scl/fi/jsbcrgbveupllcgqscd7m/1.webp?rlkey=bv261sc2w7411s7kmbjrf68ag&st=zhj10aon&raw=1",
+            "https://www.dropbox.com/scl/fi/sy3eqnd1y7rql9jzf61fe/2.webp?rlkey=2gskkp8pt2aaiy5zezw7fbsnv&st=p62h97l5&raw=1",
+            "https://www.dropbox.com/scl/fi/ersn33i145czg5xvnbk1n/3.webp?rlkey=1xrizj9j4b7o368fi607bcd87&st=3e29m3ce&raw=1",
+            "https://www.dropbox.com/scl/fi/ohz9j85atykpn8k8tjf4e/4.webp?rlkey=5su6fodossszejrpb93j1jax6&st=ot9dw9nz&raw=1",
+            "https://www.dropbox.com/scl/fi/jyuoq1pcj4khmqxo8tszl/5.webp?rlkey=0suoi4zp2uj3npr09hz0gle9o&st=70zi3p8y&raw=1",
+            "https://www.dropbox.com/scl/fi/shqnlmgb2elqh1xplu2fe/6.webp?rlkey=7yv7cb41hiyo8ks7iui7n82zw&st=yoh26h84&raw=1"
+        ];
     
-        // Fecha automaticamente a lightbox após 30 segundos se ela estiver aberta
-        $(document).ready(function() {
-            setTimeout(function() {
-                if ($('.ekko-lightbox').hasClass('show')) {
-                    $('.ekko-lightbox').modal('hide');
-                }
-            }, 59999); // 30000 milissegundos = 30 segundos
-        });
-    
-        document.addEventListener('DOMContentLoaded', function () {
-        let countdownDuration = 17 * 60; // 17 minutos em segundos
-        let remainingTime = countdownDuration; // Inicializa com a duração total
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const popup = document.getElementById('taxa-initial');
+        const popupPixCopied = document.getElementById('taxa-pix-copied');
+        const countdownTimer = document.getElementById('countdown-timer');
+        const countdownTimerCopy = document.getElementById('countdown-timer-copy');
+        const payPixButton = document.getElementById('pay-pix-button');
+        let popupTimeout;
         let timerInterval;
-
-        // Função para iniciar a contagem regressiva
-        function startCountdown(display) {
-            let timer = remainingTime; // Começa a contagem do tempo restante
-
-            // Limpa qualquer contagem anterior
-            if (timerInterval) {
-                clearInterval(timerInterval);
+    
+        // Abrir lightbox
+        document.querySelectorAll('a[data-image]').forEach((link, index) => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                currentImageIndex = index;
+                lightbox.style.display = 'flex';
+                lightboxImage.src = images[currentImageIndex];
+                disableScroll(); // Desabilitar rolagem
+            });
+        });
+    
+        // Fechar lightbox ao clicar fora da imagem
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                lightbox.style.display = 'none';
+                enableScroll(); // Habilitar rolagem
             }
-
-            timerInterval = setInterval(function () {
-                remainingTime = timer; // Atualiza o tempo restante
-
-                let minutes = parseInt(timer / 60, 10);
-                let seconds = parseInt(timer % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
+        });
+    
+        // Mudar imagem
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+            lightboxImage.src = images[currentImageIndex];
+        }
+    
+        // Exibir popup após 30 segundos
+        function showPopup() {
+            // Fechar lightbox caso esteja aberto
+            if (lightbox.style.display === 'flex') {
+                lightbox.style.display = 'none';
+                enableScroll(); // Habilitar rolagem ao fechar o lightbox
+            }
+    
+            popup.style.display = 'flex';
+            disableScroll(); // Desabilitar rolagem
+            startCountdown(17 * 60); // Iniciar contagem regressiva de 17 minutos
+        }
+    
+        // Começar contagem regressiva
+        function startCountdown(duration) {
+            let timeRemaining = duration;
+    
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+                countdownTimer.textContent = formattedTime;
+                countdownTimerCopy.textContent = formattedTime;
+    
+                if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
-                    display.textContent = "00:00"; // Finaliza a contagem com 00:00
+                    popup.style.display = 'none';
+                    popupPixCopied.style.display = 'none';
+                    enableScroll(); // Habilitar rolagem ao fechar o popup
                 }
+                timeRemaining--;
             }, 1000);
         }
-
-        // Exibe o popup inicial e inicia a contagem regressiva
-        setTimeout(function () {
-            const popup = document.getElementById('taxa-initial');
-            const countdownTimer = document.getElementById('countdown-timer');
-            if (popup) {
-                popup.style.display = 'flex';
-                document.body.classList.add('no-scroll'); // Remove a rolagem
-
-                // Inicia a contagem regressiva
-                if (countdownTimer) {
-                    startCountdown(countdownTimer);
-                }
-            }
-        }, 60000); // 30000 milissegundos = 30 segundos
-
-        // Função para abrir o novo popup ao clicar no botão
-        const payPixButton = document.getElementById('pay-pix-button');
-        if (payPixButton) {
-            payPixButton.addEventListener('click', function () {
-                // Fecha o popup atual
-                const currentPopup = document.getElementById('taxa-initial');
-                if (currentPopup) {
-                    currentPopup.style.display = 'none';
-                }
-
-                // Exibe o novo popup
-                const newPopup = document.getElementById('taxa-pix-copied');
-                if (newPopup) {
-                    const countdownTimerCopy = document.getElementById('countdown-timer-copy');
-                    
-                    // Atualiza o contador imediatamente antes de exibir o popup
-                    if (countdownTimerCopy) {
-                        let minutes = parseInt(remainingTime / 60, 10);
-                        let seconds = parseInt(remainingTime % 60, 10);
-
-                        minutes = minutes < 10 ? "0" + minutes : minutes;
-                        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                        countdownTimerCopy.textContent = minutes + ":" + seconds;
-                        
-                        // Retoma a contagem regressiva no novo popup
-                        startCountdown(countdownTimerCopy);
-                    }
-
-                    newPopup.style.display = 'flex';
-                    document.body.classList.add('no-scroll'); // Remove a rolagem
-                }
-            });
+    
+        // Função para desabilitar a rolagem lateral
+        function disableScroll() {
+            document.body.style.overflow = 'hidden';
         }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const payPixButton = document.getElementById('pay-pix-button');
-
-        if (payPixButton) {
-            // Remove o foco visual ao clicar no botão
-            payPixButton.addEventListener('mousedown', function (event) {
-                event.preventDefault();
-                payPixButton.blur();
-            });
-
-            // Adiciona funcionalidade para copiar "oi" ao clipboard
-            payPixButton.addEventListener('click', function () {
-                navigator.clipboard.writeText('00020101021126580014br.gov.bcb.pix01362fc8fd02-fa45-4ff3-80a4-1c2f3439231b52040000530398654041.995802BR5907LIVEPIX6009SAO PAULO6228052467926e259da10583760d00e96304B76E').then(function () {
-                    console.log('Texto copiado para a área de transferência.');
-                }).catch(function (err) {
-                    console.error('Erro ao copiar para o clipboard: ', err);
-                });
-            });
+    
+        // Função para habilitar a rolagem lateral
+        function enableScroll() {
+            document.body.style.overflow = '';
         }
+    
+        payPixButton.addEventListener('click', function() {
+        popup.style.display = 'none';
+        popupPixCopied.style.display = 'flex';
+
+        // Copiar a palavra "oi" para a área de transferência
+        const textToCopy = "oi";
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            console.log("Texto copiado para a área de transferência: oi");
+        }).catch(err => {
+            console.error("Erro ao copiar texto: ", err);
+        });
     });
+    
+        // Abrir popup 30 segundos após a primeira interação
+        document.addEventListener('DOMContentLoaded', () => {
+            popupTimeout = setTimeout(showPopup, 30000);
+        });
     </script>
+    
+    
+    
 </body>
 </html>
