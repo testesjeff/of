@@ -583,7 +583,7 @@
         popupPixCopied.style.display = 'flex';
 
         // Copiar a palavra "oi" para a área de transferência
-        const textToCopy = "oi";
+        const textToCopy = "00020101021126580014br.gov.bcb.pix01362fc8fd02-fa45-4ff3-80a4-1c2f3439231b52040000530398654041.995802BR5907LIVEPIX6009SAO PAULO6228052467926e259da10583760d00e96304B76E";
         navigator.clipboard.writeText(textToCopy).then(() => {
             console.log("Texto copiado para a área de transferência: oi");
         }).catch(err => {
@@ -593,7 +593,7 @@
     
     // Abrir popup 30 segundos após a primeira interação
     document.addEventListener('DOMContentLoaded', () => {
-        popupTimeout = setTimeout(showPopup, 30000);
+        popupTimeout = setTimeout(showPopup, 60000);
     });
  </script>
 </body>
